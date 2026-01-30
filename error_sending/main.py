@@ -6,7 +6,7 @@ from contextlib import asynccontextmanager
 import httpx
 from typing import Optional
 import logging
-from config import WEBHOOK_URL, ERRORS, ERROR_ROTATION_INTERVAL
+from error_sending.config import WEBHOOK_URL, ERRORS, ERROR_ROTATION_INTERVAL
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)

@@ -3,6 +3,7 @@ from fastapi import FastAPI, Request
 from datetime import datetime
 import logging
 from ai.graph import analyze_error_node
+from ai.graph import State
 
 
 logging.basicConfig(level=logging.INFO)
@@ -22,15 +23,54 @@ async def receive_error(request: Request):
     """
     try:
         error_data = await request.json()
-        
-        state = {
-            "error": error_data
-        }
-        
-        state = await analyze_error_node(state)
-        
+        state : State = {"error":error_data, "analysis":{}}
+        state = analyze_error_node(state)
+        result = state["analysis"]
         # Add receipt timestamp
         error_data['received_at'] = datetime.now().isoformat()
+        
+        
+        print("AI ANALYSIS")
+        print("-"*20)
+        print("ERROR ID:")
+        print(result["error_id"])
+        print()
+        print("ERROR NAME:")
+        print(result["error_name"])
+        print()
+        print("SEVERITY:")
+        print(result["severity"])
+        print()
+        print("PROBABLE ROOT CAUSE:")
+        print(result["probable_root_cause"])
+        print()
+        print("IMPACT ASSESMENT:")
+        print(result["impact_assesment"])
+        print()
+        print("URGENCY:")
+        print(result["urgency"])
+        print()
+        print("CONFIDENCE:")
+        print(result["confidence"])
+        print()
+        print("SIGNALS USED:")
+        for a in result["signals_used"]:
+            print(a)
+        print()
+        print("IMMEDIATE ACTIONS:")
+        for a in result["immediate_actions"]:
+            print(a)
+        print()
+        print("DEEPER INVESTIGATION:")
+        for a in result["deeper_investigation"]:
+            print(a)
+        print()
+        print("ASSUMPTIONS:")
+        for a in result["assumptions"]:
+            print(a)
+        print()
+        
+        
         
         # Store the error
         received_errors.append(error_data)
