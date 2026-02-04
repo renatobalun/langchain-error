@@ -1,12 +1,14 @@
 from pydantic import BaseModel, Field
 from typing import List, Literal
 
-Severity = Literal["critical", "high", "medium", "low"]
+Severity = Literal["error", "warning", "info"]
+
+#tablica Error
+#tablica ErrorAnalysis
+#tablica ErrorSolution
 
 class ErrorAnalysis(BaseModel):
-    error_id: str
     error_name: str
-    severity: Severity
     probable_root_cause: str
     impact_assesment: str
     urgency: Severity
@@ -15,3 +17,24 @@ class ErrorAnalysis(BaseModel):
     immediate_actions: List[str]
     deeper_investigation: List[str]
     assumptions: List[str] = []
+
+class CodeFix(BaseModel):
+    file: str
+    description: str
+    code: str
+    
+class ConfigurationChange(BaseModel):
+    key: str
+    value: str
+    reason: str
+    
+class RollbackPlan(BaseModel):
+    signals_to_monitor: List[str]
+    steps: List[str]
+
+class ErrorSolution(BaseModel):
+    code_fixes: List[CodeFix]
+    configuration_changes: List[ConfigurationChange]
+    deployment_steps: List[str]
+    rollback_plan: RollbackPlan
+    

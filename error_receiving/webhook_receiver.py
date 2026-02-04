@@ -2,9 +2,8 @@
 from fastapi import FastAPI, Request
 from datetime import datetime
 import logging
-from ai.graph import analyze_error_node
-from ai.graph import State
-
+from ai.graph import analyze_error_node, generate_solution_node
+from services.error_service import ingest_error
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -23,54 +22,9 @@ async def receive_error(request: Request):
     """
     try:
         error_data = await request.json()
-        state : State = {"error":error_data, "analysis":{}}
-        state = analyze_error_node(state)
-        result = state["analysis"]
-        # Add receipt timestamp
-        error_data['received_at'] = datetime.now().isoformat()
-        
-        
-        print("AI ANALYSIS")
-        print("-"*20)
-        print("ERROR ID:")
-        print(result["error_id"])
-        print()
-        print("ERROR NAME:")
-        print(result["error_name"])
-        print()
-        print("SEVERITY:")
-        print(result["severity"])
-        print()
-        print("PROBABLE ROOT CAUSE:")
-        print(result["probable_root_cause"])
-        print()
-        print("IMPACT ASSESMENT:")
-        print(result["impact_assesment"])
-        print()
-        print("URGENCY:")
-        print(result["urgency"])
-        print()
-        print("CONFIDENCE:")
-        print(result["confidence"])
-        print()
-        print("SIGNALS USED:")
-        for a in result["signals_used"]:
-            print(a)
-        print()
-        print("IMMEDIATE ACTIONS:")
-        for a in result["immediate_actions"]:
-            print(a)
-        print()
-        print("DEEPER INVESTIGATION:")
-        for a in result["deeper_investigation"]:
-            print(a)
-        print()
-        print("ASSUMPTIONS:")
-        for a in result["assumptions"]:
-            print(a)
-        print()
-        
-        
+
+        error_id = ingest_error(error_data)
+        print(error_id)
         
         # Store the error
         received_errors.append(error_data)
@@ -83,7 +37,6 @@ async def receive_error(request: Request):
         logger.info("=" * 60)
         logger.info(f"🚨 ERROR RECEIVED")
         logger.info(f"📛 Error Name: {error_data.get('error_name')}")
-        logger.info(f"🆔 Error ID: {error_data.get('error_id')}")
         logger.info(f"⚠️  Severity: {error_data.get('severity')}")
         logger.info(f"📊 Status Code: {error_data.get('status_code')}")
         logger.info(f"📝 Detail: {error_data.get('detail')}")
@@ -96,7 +49,6 @@ async def receive_error(request: Request):
         return {
             "status": "success",
             "message": "Error received and logged",
-            "error_id": error_data.get('error_id'),
             "timestamp": datetime.now().isoformat()
         }
         

@@ -1,6 +1,45 @@
-venv/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Environment variables
 .env
-data/qdrant
-data/sql
+.env.*
+
+# Alembic
+alembic/*.log
+
+# Databases
+*.sqlite3
+*.db
+
+# Logs
+*.log
+
+# AI / LangChain cache
+.cache/
+.cache_llm/
+langchain.db
+.openai/
+
+# OS
+Thumbs.db
+Desktop.ini
+
+# IDEs
+.vscode/
+.idea/
+
+# Build
+build/
+dist/
+*.egg-info/

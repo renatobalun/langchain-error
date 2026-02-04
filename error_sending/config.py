@@ -9,7 +9,7 @@ ERRORS = [
         "name": "DatabaseConnectionError",
         "status_code": 503,
         "detail": "Unable to connect to database. Connection pool exhausted.",
-        "severity": "critical",
+        "severity": "error",
         "context": {
             "service": "user-service",
             "database": "PostgreSQL",
@@ -49,7 +49,7 @@ ERRORS = [
         "name": "AuthenticationError",
         "status_code": 401,
         "detail": "Invalid authentication credentials. Token has expired.",
-        "severity": "high",
+        "severity": "warning",
         "context": {
             "service": "auth-service",
             "user_id": "user_7d89f3a1",
@@ -87,7 +87,7 @@ ERRORS = [
         "name": "RateLimitError",
         "status_code": 429,
         "detail": "Rate limit exceeded. Too many requests from this IP address.",
-        "severity": "medium",
+        "severity": "warning",
         "context": {
             "service": "api-gateway",
             "ip_address": "203.0.113.45",
@@ -129,7 +129,7 @@ ERRORS = [
         "name": "ValidationError",
         "status_code": 422,
         "detail": "Request validation failed. Missing required field 'user_id'.",
-        "severity": "medium",
+        "severity": "warning",
         "context": {
             "service": "order-service",
             "endpoint": "/api/v1/orders/create",
@@ -179,7 +179,7 @@ ERRORS = [
         "name": "ExternalAPIError",
         "status_code": 502,
         "detail": "External payment gateway service is unavailable.",
-        "severity": "critical",
+        "severity": "error",
         "context": {
             "service": "payment-service",
             "external_service": "Stripe API",
@@ -228,7 +228,7 @@ ERRORS = [
         "name": "ResourceNotFoundError",
         "status_code": 404,
         "detail": "The requested resource with ID '12345' was not found in the system.",
-        "severity": "low",
+        "severity": "info",
         "context": {
             "service": "inventory-service",
             "resource_type": "Product",
@@ -276,7 +276,7 @@ ERRORS = [
         "name": "MemoryError",
         "status_code": 500,
         "detail": "Service out of memory. Unable to process large dataset.",
-        "severity": "critical",
+        "severity": "error",
         "context": {
             "service": "analytics-service",
             "endpoint": "/api/v1/reports/generate",
@@ -332,7 +332,7 @@ MemoryError: Unable to allocate array with shape (5000000, 50)
         "name": "DeadlockError",
         "status_code": 500,
         "detail": "Database deadlock detected. Transaction rolled back.",
-        "severity": "high",
+        "severity": "warning",
         "context": {
             "service": "transaction-service",
             "database": "PostgreSQL",

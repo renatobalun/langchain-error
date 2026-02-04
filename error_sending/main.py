@@ -47,7 +47,6 @@ def create_error_payload(error_index: int) -> dict:
     error = ERRORS[error_index]
     
     return {
-        "error_id": f"err_{datetime.now().strftime('%Y%m%d_%H%M%S')}_{error_index}",
         "timestamp": datetime.now().isoformat(),
         "error_name": error["name"],
         "status_code": error["status_code"],
@@ -55,7 +54,6 @@ def create_error_payload(error_index: int) -> dict:
         "severity": error["severity"],
         "context": error["context"],
         "metrics": error["metrics"],
-        "suggested_checks": error["suggested_checks"]
     }
 
 
